@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { data } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 import { assets } from '../assets/assets';
 import Message from './Message';
 
 const ChatBox = () => {
+
+  const containerRef = useRef(null);
 
   const {selectedChat, theme} = useAppContext();
   const [messages, setMessages] = useState([]);
@@ -24,11 +26,20 @@ const ChatBox = () => {
     }
   },[selectedChat])
 
+  useEffect(()=>{
+    if(containerRef.current){
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behabiour: "smooth",
+      })
+    }
+  },[messages])
+
   return (
     <div className='flex-1 flex flex-col justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40'>
 
         {/* chat message */}
-      <div className='flex-1 mb-5 overflow-y-scroll'>
+      <div ref={containerRef} className='flex-1 mb-5 overflow-y-scroll'>
         {messages.length == 0  && (
           <div className='h-full felx flex-col items-center justify-center gap-2 text-primary'>
             <img src={theme === 'dark' ? assets.logo_full : assets.logo_full_dark}  className='w-full max-w-56 sm:max-w-68'  alt="" />
@@ -47,8 +58,16 @@ const ChatBox = () => {
             <div className='w-1.5 h-1.5 rounded-full bg-grey-500 dark:bg-white animate-bounce'></div>
           </div>
         }
-     
       </div>
+
+
+
+        {mode === "image" && (
+          <label className='inline-flex items-center gap-2 mb-3 text-sm mx-auto'>
+            <p className='text=xs'>Publih the Genereted Image in Community</p>
+            <input type="checkbox" className='cursor-pointer' checked={isPublished} onChange={(e)=>setIsPublished(e.target.checked)}/>
+          </label>
+        )}
 
     {/* Prompt Input Box */}
 
