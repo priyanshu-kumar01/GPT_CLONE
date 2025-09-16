@@ -4,6 +4,8 @@ import cors from "cors";
 import connectDB from "./configs/db.js";
 import userRouter from "./routes/userRoutes.js";
 import chatRouter from "./routes/chatRoutes.js";
+import messageRouter from "./routes/messgeRoutes.js";
+
 
 
 const app = express();
@@ -20,6 +22,7 @@ app.use(express.json());
 app.get("/", (req,res)=>{res.send("Hello world");});
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/message", messageRouter);
 
 app.listen(port, ()=>{
     console.log(`App is Listning on ${port} `);
