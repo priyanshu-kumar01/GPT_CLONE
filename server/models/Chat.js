@@ -9,6 +9,7 @@ const ChatSchema = new mongoose.Schema({
             isImage : {type : Boolean, required: true},
             isPublished : {type: Boolean, default: false},
             role : {type : String, required: true},
+            content : {type: String, rrequired: true},
             timestamp : {type: Number, required : true},
         }
     ],
